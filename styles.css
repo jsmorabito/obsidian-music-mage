@@ -1,8 +1,1051 @@
-/*
+.mm-circle-view {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 16px;
+	gap: 16px;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.mm-circle-svg {
+	width: 100%;
+	max-width: 360px;
+	height: auto;
+	cursor: pointer;
+}
 
-If your plugin does not need CSS, delete this file.
+/* Major segments */
+.mm-seg.mm-major {
+	fill: var(--color-accent);
+	opacity: 0.55;
+	stroke: var(--background-primary);
+	stroke-width: 1.5;
+	transition: opacity 0.15s ease;
+}
 
-*/
+.mm-seg.mm-major:hover {
+	opacity: 0.85;
+}
+
+.mm-seg.mm-major.mm-selected {
+	opacity: 1;
+	fill: var(--color-accent);
+}
+
+/* Minor segments */
+.mm-seg.mm-minor {
+	fill: var(--background-modifier-border);
+	stroke: var(--background-primary);
+	stroke-width: 1.5;
+	transition: opacity 0.15s ease;
+}
+
+.mm-seg.mm-minor:hover {
+	fill: var(--background-modifier-hover);
+}
+
+.mm-seg.mm-minor.mm-selected {
+	fill: var(--color-accent);
+	opacity: 0.6;
+}
+
+/* Center circle */
+.mm-center {
+	fill: var(--background-secondary);
+	stroke: var(--background-modifier-border);
+	stroke-width: 1.5;
+}
+
+/* Labels */
+.mm-lbl-major {
+	font-size: 13px;
+	font-weight: 600;
+	fill: var(--text-on-accent);
+}
+
+.mm-lbl-minor {
+	font-size: 10px;
+	fill: var(--text-muted);
+}
+
+/* Info panel */
+.mm-key-info {
+	width: 100%;
+	max-width: 360px;
+}
+
+.mm-hint {
+	text-align: center;
+	color: var(--text-muted);
+	font-size: 13px;
+}
+
+.mm-key-title {
+	margin: 0 0 4px;
+	font-size: 18px;
+}
+
+.mm-key-sig {
+	margin: 0 0 12px;
+	color: var(--text-muted);
+	font-size: 13px;
+}
+
+.mm-chords h4 {
+	margin: 0 0 8px;
+	font-size: 13px;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.mm-chord-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+}
+
+.mm-chord-table th {
+	color: var(--text-muted);
+	font-weight: 500;
+	padding: 4px 6px;
+	text-align: center;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.mm-chord-table td {
+	padding: 6px 4px;
+	text-align: center;
+	font-weight: 600;
+}
+
+/* ── Chord Dictionary ─────────────────────────────────── */
+
+.mm-chord-dict-view {
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	gap: 12px;
+	overflow-y: auto;
+}
+
+.mm-search-wrap {
+	position: sticky;
+	top: 0;
+	background: var(--background-primary);
+	padding-bottom: 4px;
+	z-index: 1;
+}
+
+.mm-search-input {
+	width: 100%;
+	padding: 6px 10px;
+	border-radius: var(--radius-m);
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-secondary);
+	color: var(--text-normal);
+	font-size: 14px;
+}
+
+.mm-search-input:focus {
+	outline: none;
+	border-color: var(--color-accent);
+}
+
+/* Root note grid */
+.mm-root-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.mm-root-btn {
+	padding: 4px 10px;
+	border-radius: var(--radius-s);
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-secondary);
+	color: var(--text-normal);
+	font-size: 13px;
+	cursor: pointer;
+	transition: background 0.1s;
+}
+
+.mm-root-btn:hover {
+	background: var(--background-modifier-hover);
+}
+
+.mm-root-btn.mm-active {
+	background: var(--color-accent);
+	color: var(--text-on-accent);
+	border-color: var(--color-accent);
+}
+
+/* Chord list */
+.mm-chord-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.mm-chord-card {
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	padding: 10px 12px;
+	background: var(--background-secondary);
+}
+
+.mm-chord-header {
+	display: flex;
+	align-items: baseline;
+	gap: 8px;
+	margin-bottom: 8px;
+}
+
+.mm-chord-name {
+	font-size: 18px;
+	font-weight: 700;
+	color: var(--text-normal);
+}
+
+.mm-chord-type {
+	font-size: 12px;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+}
+
+.mm-notes-row {
+	display: flex;
+	gap: 6px;
+}
+
+.mm-note-cell {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	flex: 1;
+	background: var(--background-primary);
+	border-radius: var(--radius-s);
+	padding: 6px 4px;
+}
+
+.mm-note {
+	font-size: 15px;
+	font-weight: 600;
+	color: var(--text-normal);
+}
+
+.mm-interval {
+	font-size: 10px;
+	color: var(--text-muted);
+	margin-top: 2px;
+}
+
+/* ── Scale Explorer ───────────────────────────────────── */
+
+.mm-scale-view {
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	gap: 10px;
+	overflow-y: auto;
+}
+
+.mm-cat-tabs {
+	display: flex;
+	gap: 4px;
+	flex-wrap: wrap;
+}
+
+.mm-cat-tab {
+	padding: 3px 10px;
+	border-radius: var(--radius-s);
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-secondary);
+	color: var(--text-muted);
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.mm-cat-tab.mm-active {
+	background: var(--color-accent);
+	color: var(--text-on-accent);
+	border-color: var(--color-accent);
+}
+
+.mm-scale-list {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+}
+
+.mm-scale-btn {
+	text-align: left;
+	padding: 5px 10px;
+	border-radius: var(--radius-s);
+	border: none;
+	background: transparent;
+	color: var(--text-normal);
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.mm-scale-btn:hover {
+	background: var(--background-modifier-hover);
+}
+
+.mm-scale-btn.mm-active {
+	background: var(--background-modifier-active-hover);
+	color: var(--text-accent);
+	font-weight: 600;
+}
+
+.mm-scale-result {
+	border-top: 1px solid var(--background-modifier-border);
+	padding-top: 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.mm-scale-title {
+	margin: 0;
+	font-size: 17px;
+}
+
+/* Piano */
+.mm-piano-wrap {
+	position: relative;
+	user-select: none;
+}
+
+.mm-piano {
+	position: relative;
+	height: 80px;
+}
+
+.mm-piano-whites {
+	display: flex;
+	gap: 2px;
+	height: 80px;
+}
+
+.mm-piano-blacks {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 52px;
+	pointer-events: none;
+}
+
+.mm-key.mm-white {
+	flex: 1;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 0 0 4px 4px;
+	background: var(--background-primary);
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	padding-bottom: 4px;
+	position: relative;
+}
+
+.mm-key.mm-white.mm-in-scale {
+	background: color-mix(in srgb, var(--color-accent) 25%, var(--background-primary));
+}
+
+.mm-key.mm-white.mm-root-key {
+	background: var(--color-accent);
+}
+
+.mm-key.mm-black {
+	position: absolute;
+	width: 11%;
+	height: 100%;
+	background: var(--text-normal);
+	border-radius: 0 0 3px 3px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	padding-bottom: 3px;
+}
+
+/* Position black keys: gap-index 0=C#, 1=D#, 3=F#, 4=G#, 5=A# */
+/* Each white key ~14.28% wide; black keys sit between whites */
+.mm-key.mm-black { left: calc((var(--gap-index) * 14.28% + 14.28% - 5.5%)); }
+
+.mm-key.mm-black.mm-in-scale {
+	background: color-mix(in srgb, var(--color-accent) 70%, var(--text-normal));
+}
+
+.mm-key.mm-black.mm-root-key {
+	background: var(--color-accent);
+}
+
+.mm-key-label {
+	font-size: 9px;
+	color: var(--text-muted);
+	line-height: 1;
+}
+
+.mm-key.mm-root-key .mm-key-label,
+.mm-key.mm-black .mm-key-label {
+	color: var(--text-on-accent);
+}
+
+/* Note table */
+.mm-note-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 12px;
+}
+
+.mm-note-table th {
+	color: var(--text-faint);
+	font-weight: 400;
+	padding: 2px 4px;
+	text-align: center;
+}
+
+.mm-note-table .mm-note {
+	font-weight: 700;
+	font-size: 13px;
+	padding: 2px 4px;
+	text-align: center;
+}
+
+.mm-note-table .mm-interval {
+	color: var(--text-muted);
+	padding: 2px 4px;
+	text-align: center;
+}
+
+/* Diatonic chords */
+.mm-section-label {
+	margin: 0;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--text-muted);
+}
+
+.mm-diatonic-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+	gap: 6px;
+}
+
+.mm-diatonic-cell {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	padding: 6px 8px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.mm-roman {
+	font-size: 10px;
+	color: var(--text-muted);
+}
+
+.mm-diatonic-chord {
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.mm-diatonic-notes {
+	font-size: 10px;
+	color: var(--text-muted);
+}
+
+/* ── Song Analysis sidebar ────────────────────────────── */
+
+.mm-song-view {
+	display: flex;
+	flex-direction: column;
+	padding: 14px;
+	gap: 14px;
+	overflow-y: auto;
+}
+
+.mm-song-empty {
+	padding: 24px 0;
+	text-align: center;
+}
+
+.mm-song-header {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.mm-song-title {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.3;
+}
+
+.mm-song-artist {
+	margin: 0;
+	font-size: 13px;
+	color: var(--text-muted);
+}
+
+.mm-song-genre {
+	margin: 0;
+	font-size: 11px;
+	color: var(--text-faint);
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+
+/* Badges */
+.mm-badge-row {
+	display: flex;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.mm-badge {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	padding: 6px 12px;
+	min-width: 56px;
+}
+
+.mm-badge-label {
+	font-size: 9px;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	color: var(--text-muted);
+	text-transform: uppercase;
+}
+
+.mm-badge-value {
+	font-size: 16px;
+	font-weight: 700;
+	color: var(--text-normal);
+	line-height: 1.3;
+}
+
+/* Sections */
+.mm-song-sections {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.mm-song-section {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	padding: 10px 12px;
+}
+
+.mm-section-name {
+	font-size: 11px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--text-muted);
+	margin-bottom: 8px;
+}
+
+.mm-chord-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.mm-chord-cell {
+	display: flex;
+	gap: 4px;
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	padding: 4px 8px;
+}
+
+.mm-chord-token {
+	font-size: 13px;
+	font-weight: 600;
+}
+
+/* ── :::song inline directive widget ─────────────────── */
+
+.mm-song-widget {
+	border: 1px solid var(--background-modifier-border);
+	border-left: 3px solid var(--color-accent);
+	border-radius: var(--radius-m);
+	padding: 8px 12px;
+	margin: 4px 0;
+	background: var(--background-secondary);
+	cursor: text;
+}
+
+.mm-song-widget-header {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 8px;
+}
+
+.mm-song-widget-icon {
+	color: var(--color-accent);
+	font-size: 14px;
+}
+
+.mm-song-widget-label {
+	font-size: 12px;
+	font-weight: 600;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--text-muted);
+}
+
+.mm-song-widget-empty {
+	font-size: 12px;
+	color: var(--text-faint);
+	font-style: italic;
+}
+
+.mm-song-widget-grid {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 5px;
+}
+
+.mm-song-widget-bar {
+	display: flex;
+	gap: 4px;
+	background: var(--background-primary);
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	padding: 4px 8px;
+}
+
+.mm-song-widget-chord {
+	font-size: 13px;
+	font-weight: 600;
+}
+
+/* ── Chord Map ────────────────────────────────────────── */
+
+.mm-chord-map-view {
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	gap: 10px;
+	overflow: hidden;
+}
+
+/* Tab bar (shared with other tabbed views if added later) */
+.mm-tab-bar {
+	display: flex;
+	gap: 2px;
+	border-bottom: 1px solid var(--background-modifier-border);
+	padding-bottom: 6px;
+}
+
+.mm-tab {
+	padding: 4px 12px;
+	border-radius: var(--radius-s) var(--radius-s) 0 0;
+	border: none;
+	background: transparent;
+	color: var(--text-muted);
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.mm-tab:hover { color: var(--text-normal); }
+
+.mm-tab.mm-active {
+	background: var(--background-modifier-active-hover);
+	color: var(--text-accent);
+	font-weight: 600;
+}
+
+/* Manual input */
+.mm-map-input-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.mm-map-textarea {
+	width: 100%;
+	min-height: 80px;
+	padding: 8px 10px;
+	border-radius: var(--radius-m);
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-secondary);
+	color: var(--text-normal);
+	font-size: 13px;
+	font-family: var(--font-monospace);
+	resize: vertical;
+}
+
+.mm-map-textarea:focus {
+	outline: none;
+	border-color: var(--color-accent);
+}
+
+.mm-map-render-btn {
+	align-self: flex-start;
+	padding: 5px 16px;
+	border-radius: var(--radius-m);
+	border: 1px solid var(--color-accent);
+	background: var(--color-accent);
+	color: var(--text-on-accent);
+	font-size: 13px;
+	cursor: pointer;
+}
+
+.mm-map-file-name {
+	font-size: 12px;
+	color: var(--text-muted);
+	margin: 0;
+	font-style: italic;
+}
+
+/* SVG scroll wrapper */
+.mm-chord-map-scroll {
+	overflow-x: auto;
+	overflow-y: hidden;
+	min-height: 280px;
+}
+
+.mm-chord-map-svg {
+	display: block;
+	min-height: 280px;
+	height: 100%;
+	width: 100%;
+}
+
+/* SVG internals */
+.mm-map-grid {
+	stroke: var(--background-modifier-border);
+	stroke-width: 0.5;
+}
+
+.mm-map-y-label {
+	fill: var(--text-muted);
+}
+
+.mm-map-x-label {
+	fill: var(--text-faint);
+}
+
+.mm-map-line {
+	stroke: var(--text-muted);
+	stroke-width: 1.5;
+}
+
+.mm-map-sym {
+	stroke: var(--text-normal);
+	stroke-width: 1.5;
+	fill: none;
+}
+
+/* Legend */
+.mm-map-legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding-top: 6px;
+}
+
+.mm-map-legend-item {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+}
+
+.mm-map-legend-swatch {
+	width: 10px;
+	height: 10px;
+	border-radius: 2px;
+	flex-shrink: 0;
+}
+
+.mm-map-legend-label {
+	font-size: 11px;
+	color: var(--text-muted);
+}
+
+/* Compact map inside Song Analysis */
+.mm-song-map-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+/* ── Track directive widget ────────────────────────────────────────────────── */
+
+.mm-track-widget {
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 6px;
+	overflow: hidden;
+	margin: 4px 0;
+	font-size: 13px;
+}
+
+.mm-track-header {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 4px 10px;
+	background: var(--background-secondary);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.mm-track-instrument {
+	font-weight: 600;
+	font-size: 11px;
+	letter-spacing: 0.05em;
+	color: var(--color-accent);
+}
+
+.mm-track-label {
+	font-weight: 500;
+	color: var(--text-normal);
+}
+
+.mm-track-tuning {
+	font-size: 11px;
+	color: var(--text-muted);
+	font-family: var(--font-monospace);
+}
+
+.mm-track-score-tag {
+	margin-left: auto;
+	font-size: 10px;
+	color: var(--text-faint);
+	background: var(--background-modifier-hover);
+	padding: 1px 6px;
+	border-radius: 10px;
+}
+
+.mm-track-body {
+	padding: 8px 10px;
+	background: var(--background-primary);
+}
+
+/* Tab rendering */
+.mm-track-tab {
+	margin: 0;
+	line-height: 1.5;
+	font-family: var(--font-monospace);
+	font-size: 12px;
+	overflow-x: auto;
+	white-space: pre;
+}
+
+.mm-tab-string-name {
+	color: var(--color-accent);
+	font-weight: 600;
+}
+
+.mm-tab-content {
+	color: var(--text-normal);
+}
+
+/* Chord row rendering */
+.mm-track-chord-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px;
+}
+
+.mm-track-bar {
+	display: flex;
+	gap: 6px;
+	padding: 2px 6px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 4px;
+}
+
+.mm-track-chord {
+	font-weight: 500;
+	color: var(--text-normal);
+}
+
+/* ── Key detection section ─────────────────────────────────────────────────── */
+
+.mm-key-detect-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding-top: 6px;
+}
+
+.mm-key-detect-group {
+	background: var(--background-secondary);
+	border-radius: 8px;
+	padding: 10px 12px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.mm-key-detect-score-id {
+	font-size: 11px;
+	font-weight: 600;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+.mm-key-candidates {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.mm-key-candidate {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.mm-key-rank {
+	font-size: 11px;
+	color: var(--text-faint);
+	width: 14px;
+	flex-shrink: 0;
+}
+
+.mm-key-name {
+	font-weight: 600;
+	font-size: 13px;
+	color: var(--text-normal);
+	min-width: 90px;
+}
+
+.mm-key-pct {
+	font-size: 11px;
+	color: var(--text-muted);
+	min-width: 32px;
+	text-align: right;
+}
+
+.mm-key-bar-bg {
+	flex: 1;
+	height: 6px;
+	background: var(--background-modifier-border);
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.mm-key-bar-fill {
+	height: 100%;
+	background: var(--text-muted);
+	border-radius: 3px;
+	transition: width 0.2s ease;
+}
+
+.mm-key-bar-fill.mm-key-bar-top {
+	background: var(--color-accent);
+}
+
+.mm-key-best {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-accent);
+	margin: 0;
+}
+
+.mm-key-bass-note {
+	font-size: 11px;
+	color: var(--text-muted);
+	margin: 0;
+}
+
+/* Key detection breakdown table */
+.mm-key-breakdown-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 12px;
+}
+
+.mm-key-breakdown-table th {
+	text-align: left;
+	padding: 2px 6px;
+	color: var(--text-muted);
+	font-weight: 500;
+	font-size: 11px;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.mm-key-breakdown-table td {
+	padding: 2px 6px;
+	color: var(--text-normal);
+	border-bottom: 1px solid var(--background-modifier-border-hover);
+}
+
+.mm-key-outside {
+	color: var(--text-muted);
+	text-decoration: line-through;
+}
+
+.mm-roman {
+	font-style: italic;
+	color: var(--color-accent);
+}
+
+/* ── Chord map additions ───────────────────────────────────────────────────── */
+
+/* Tonic highlight band */
+.mm-map-tonic-band {
+	fill: var(--color-accent);
+	opacity: 0.12;
+}
+
+/* Bar number labels (top) */
+.mm-map-x-bar-label {
+	fill: var(--text-faint);
+}
+
+/* Dominant 7 outer symbol (same as major but distinguished by inner square) */
+.mm-map-sym-dom7 {
+	fill: none;
+	stroke: var(--text-normal);
+	stroke-width: 1.5;
+}
+
+/* Inner square for dominant 7 */
+.mm-map-sym-inner {
+	fill: none;
+	stroke: var(--text-normal);
+	stroke-width: 1;
+}
+
+/* Symbol legend */
+.mm-map-symbol-legend {
+	display: flex;
+	gap: 16px;
+	padding: 8px 12px;
+	flex-wrap: wrap;
+}
+
+.mm-sym-legend-item {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.mm-sym-legend-icon {
+	flex-shrink: 0;
+	overflow: visible;
+}
+
+.mm-sym-legend-label {
+	font-size: 11px;
+	color: var(--text-muted);
+}
