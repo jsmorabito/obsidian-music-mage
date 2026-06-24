@@ -44,7 +44,7 @@ export class CircleOfFifthsView extends ItemView {
 	}
 
 	getViewType() { return CIRCLE_OF_FIFTHS_VIEW; }
-	getDisplayText() { return 'Circle of Fifths'; }
+	getDisplayText() { return 'Circle of fifths'; }
 	getIcon() { return 'music'; }
 
 	async onOpen() {
@@ -78,7 +78,7 @@ export class CircleOfFifthsView extends ItemView {
 		const midR = 124;
 		const innerR = 76;
 
-		const svg = document.createElementNS(NS, 'svg') as SVGSVGElement;
+		const svg = document.createElementNS(NS, 'svg');
 		svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
 		svg.setAttribute('class', 'mm-circle-svg');
 
@@ -104,7 +104,7 @@ export class CircleOfFifthsView extends ItemView {
 			svg.appendChild(this.label((innerR + midR) / 2, angleDeg, cx, cy, key.minor, 'mm-lbl-minor'));
 		});
 
-		const center = document.createElementNS(NS, 'circle') as SVGCircleElement;
+		const center = document.createElementNS(NS, 'circle');
 		center.setAttribute('cx', String(cx));
 		center.setAttribute('cy', String(cy));
 		center.setAttribute('r', String(innerR));
@@ -128,14 +128,14 @@ export class CircleOfFifthsView extends ItemView {
 			'Z',
 		].join(' ');
 
-		const path = document.createElementNS(NS, 'path') as SVGPathElement;
+		const path = document.createElementNS(NS, 'path');
 		path.setAttribute('d', d);
 		return path;
 	}
 
 	private label(r: number, angleDeg: number, cx: number, cy: number, text: string, cls: string): SVGTextElement {
 		const a = angleDeg * Math.PI / 180;
-		const el = document.createElementNS(NS, 'text') as SVGTextElement;
+		const el = document.createElementNS(NS, 'text');
 		el.setAttribute('x', String(cx + r * Math.cos(a)));
 		el.setAttribute('y', String(cy + r * Math.sin(a)));
 		el.setAttribute('text-anchor', 'middle');
@@ -152,7 +152,6 @@ export class CircleOfFifthsView extends ItemView {
 	}
 
 	private renderKeyInfo(el: HTMLElement, key: string) {
-		const isMinor = key.endsWith('m') && key !== 'Am'.slice(0, 0); // always ends with 'm' for minors
 		const minorKey = KEYS.find(k => k.minor === key);
 		const majorKey = KEYS.find(k => k.major === key);
 		const keyData = minorKey ?? majorKey;

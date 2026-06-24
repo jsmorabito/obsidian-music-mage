@@ -67,14 +67,31 @@ export function parseChordBody(lines: string[]): string[][] {
 	return bars;
 }
 
+function fmStr(v: unknown): string | undefined {
+	if (typeof v === 'string') return v;
+	if (typeof v === 'number' || typeof v === 'boolean' || typeof v === 'bigint') return String(v);
+	return undefined;
+}
+
+export function isSongFile(
+	meta: SongMeta,
+	sections: SongSection[],
+	frontmatter: Record<string, unknown> | null,
+	tagKey: string,
+	tagValue: string,
+): boolean {
+	if (tagKey !== '' && frontmatter != null && fmStr(frontmatter[tagKey]) === tagValue) return true;
+	return !!(meta.key || meta.tempo || meta.time || meta.artist || sections.length > 0);
+}
+
 export function metaFromFrontmatter(fm: Record<string, unknown> | null | undefined): SongMeta {
 	if (!fm) return { title: 'Untitled' };
 	return {
-		title:  String(fm['title']  ?? fm['name'] ?? 'Untitled'),
-		artist: fm['artist']  != null ? String(fm['artist'])  : undefined,
-		key:    fm['key']     != null ? String(fm['key'])     : undefined,
+		title:  fmStr(fm['title']) ?? fmStr(fm['name']) ?? 'Untitled',
+		artist: fmStr(fm['artist']),
+		key:    fmStr(fm['key']),
 		tempo:  fm['tempo']   != null ? Number(fm['tempo'])   : undefined,
-		time:   fm['time']    != null ? String(fm['time'])    : undefined,
-		genre:  fm['genre']   != null ? String(fm['genre'])   : undefined,
+		time:   fmStr(fm['time']),
+		genre:  fmStr(fm['genre']),
 	};
 }

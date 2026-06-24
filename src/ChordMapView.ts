@@ -18,18 +18,18 @@ export class ChordMapView extends ItemView {
 	}
 
 	getViewType()    { return CHORD_MAP_VIEW; }
-	getDisplayText() { return 'Chord Map'; }
+	getDisplayText() { return 'Chord map'; }
 	getIcon()        { return 'git-fork'; }
 
 	async onOpen() {
 		this.registerEvent(
 			this.app.workspace.on('active-leaf-change', () => {
-				if (this.activeTab === 'note') this.refresh();
+				if (this.activeTab === 'note') void this.refresh();
 			}),
 		);
 		this.registerEvent(
 			this.app.vault.on('modify', (file) => {
-				if (this.activeTab === 'note' && file === this.currentFile) this.refresh();
+				if (this.activeTab === 'note' && file === this.currentFile) void this.refresh();
 			}),
 		);
 		await this.refresh();
@@ -54,7 +54,7 @@ export class ChordMapView extends ItemView {
 		this.renderTabs(contentEl);
 
 		if (this.activeTab === 'note') {
-			this.renderNoteMap(contentEl);
+			void this.renderNoteMap(contentEl);
 		} else {
 			this.renderInputMap(contentEl);
 		}
@@ -114,7 +114,7 @@ export class ChordMapView extends ItemView {
 		const inputWrap = parent.createDiv('mm-map-input-wrap');
 
 		const textarea = inputWrap.createEl('textarea', { cls: 'mm-map-textarea' });
-		textarea.placeholder = 'Enter chords — same format as :::song body\ne.g. Cmaj7 | Am7 | Fmaj7 | G7';
+		textarea.placeholder = 'Enter chords — same format as :::song body\ne.g. Cmaj7 | am7 | fmaj7 | g7';
 		textarea.value = this.inputValue;
 		textarea.addEventListener('input', () => { this.inputValue = textarea.value; });
 

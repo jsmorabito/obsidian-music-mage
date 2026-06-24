@@ -21,17 +21,17 @@ export default class MusicMagePlugin extends Plugin {
 		this.registerView(SONG_ANALYSIS_VIEW,     (leaf) => new SongAnalysisView(leaf, this));
 		this.registerView(CHORD_MAP_VIEW,         (leaf) => new ChordMapView(leaf, this));
 
-		this.addRibbonIcon('music',       'Circle of Fifths', () => this.openView(CIRCLE_OF_FIFTHS_VIEW));
-		this.addRibbonIcon('book-open',   'Chord Dictionary', () => this.openView(CHORD_DICT_VIEW));
-		this.addRibbonIcon('layout-list', 'Scale Explorer',   () => this.openView(SCALE_EXPLORER_VIEW));
-		this.addRibbonIcon('file-music',  'Song Analysis',    () => this.openView(SONG_ANALYSIS_VIEW));
-		this.addRibbonIcon('git-fork',    'Chord Map',        () => this.openView(CHORD_MAP_VIEW));
+		this.addRibbonIcon('music',       'Circle of fifths', () => this.openView(CIRCLE_OF_FIFTHS_VIEW));
+		this.addRibbonIcon('book-open',   'Chord dictionary', () => this.openView(CHORD_DICT_VIEW));
+		this.addRibbonIcon('layout-list', 'Scale explorer',   () => this.openView(SCALE_EXPLORER_VIEW));
+		this.addRibbonIcon('file-music',  'Song analysis',    () => this.openView(SONG_ANALYSIS_VIEW));
+		this.addRibbonIcon('git-fork',    'Chord map',        () => this.openView(CHORD_MAP_VIEW));
 
-		this.addCommand({ id: 'open-circle-of-fifths', name: 'Open Circle of Fifths', callback: () => this.openView(CIRCLE_OF_FIFTHS_VIEW) });
-		this.addCommand({ id: 'open-chord-dictionary', name: 'Open Chord Dictionary', callback: () => this.openView(CHORD_DICT_VIEW) });
-		this.addCommand({ id: 'open-scale-explorer',   name: 'Open Scale Explorer',   callback: () => this.openView(SCALE_EXPLORER_VIEW) });
-		this.addCommand({ id: 'open-song-analysis',    name: 'Open Song Analysis',    callback: () => this.openView(SONG_ANALYSIS_VIEW) });
-		this.addCommand({ id: 'open-chord-map',        name: 'Open Chord Map',        callback: () => this.openView(CHORD_MAP_VIEW) });
+		this.addCommand({ id: 'open-circle-of-fifths', name: 'Open circle of fifths', callback: () => this.openView(CIRCLE_OF_FIFTHS_VIEW) });
+		this.addCommand({ id: 'open-chord-dictionary', name: 'Open chord dictionary', callback: () => this.openView(CHORD_DICT_VIEW) });
+		this.addCommand({ id: 'open-scale-explorer',   name: 'Open scale explorer',   callback: () => this.openView(SCALE_EXPLORER_VIEW) });
+		this.addCommand({ id: 'open-song-analysis',    name: 'Open song analysis',    callback: () => this.openView(SONG_ANALYSIS_VIEW) });
+		this.addCommand({ id: 'open-chord-map',        name: 'Open chord map',        callback: () => this.openView(CHORD_MAP_VIEW) });
 
 		this.addSettingTab(new MusicMageSettingTab(this.app, this));
 
@@ -43,11 +43,11 @@ export default class MusicMagePlugin extends Plugin {
 	}
 
 	onunload() {
-		this.app.workspace.detachLeavesOfType(CIRCLE_OF_FIFTHS_VIEW);
-		this.app.workspace.detachLeavesOfType(CHORD_DICT_VIEW);
-		this.app.workspace.detachLeavesOfType(SCALE_EXPLORER_VIEW);
-		this.app.workspace.detachLeavesOfType(SONG_ANALYSIS_VIEW);
-		this.app.workspace.detachLeavesOfType(CHORD_MAP_VIEW);
+		
+		
+		
+		
+		
 	}
 
 	async loadSettings() {
@@ -65,12 +65,12 @@ export default class MusicMagePlugin extends Plugin {
 	private async openView(viewType: string) {
 		const existing = this.app.workspace.getLeavesOfType(viewType);
 		if (existing.length > 0) {
-			this.app.workspace.revealLeaf(existing[0] as WorkspaceLeaf);
+			void this.app.workspace.revealLeaf(existing[0] as WorkspaceLeaf);
 			return;
 		}
 		const leaf = (this.app.workspace.getRightLeaf(false)
-			?? this.app.workspace.getLeaf('tab')) as WorkspaceLeaf;
+			?? this.app.workspace.getLeaf('tab'));
 		await leaf.setViewState({ type: viewType, active: true });
-		this.app.workspace.revealLeaf(leaf);
+		void this.app.workspace.revealLeaf(leaf);
 	}
 }

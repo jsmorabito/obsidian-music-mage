@@ -32,16 +32,15 @@ export class MusicMageSettingTab extends PluginSettingTab {
 	display() {
 		const { containerEl } = this;
 		containerEl.empty();
-		containerEl.createEl('h2', { text: 'Music Mage' });
 
 		// ── Song Analysis ─────────────────────────────────────
-		containerEl.createEl('h3', { text: 'Song Analysis' });
+		new Setting(containerEl).setName('Song analysis').setHeading();
 
 		new Setting(containerEl)
 			.setName('Song frontmatter key')
 			.setDesc('Frontmatter key that identifies a note as a song (e.g. "type"). Leave blank to disable.')
 			.addText(t => t
-				.setPlaceholder('type')
+				.setPlaceholder('Type')
 				.setValue(this.plugin.settings.songFrontmatterKey)
 				.onChange(async (v) => {
 					this.plugin.settings.songFrontmatterKey = v.trim();
@@ -53,7 +52,7 @@ export class MusicMageSettingTab extends PluginSettingTab {
 			.setName('Song frontmatter value')
 			.setDesc('Value the key must match for the note to be treated as a song (e.g. "song").')
 			.addText(t => t
-				.setPlaceholder('song')
+				.setPlaceholder('Song')
 				.setValue(this.plugin.settings.songFrontmatterValue)
 				.onChange(async (v) => {
 					this.plugin.settings.songFrontmatterValue = v.trim();
@@ -62,11 +61,11 @@ export class MusicMageSettingTab extends PluginSettingTab {
 			);
 
 		// ── Chord Map ────────────────────────────────────────
-		containerEl.createEl('h3', { text: 'Chord Map' });
+		new Setting(containerEl).setName('Chord map').setHeading();
 
 		new Setting(containerEl)
 			.setName('Section colors')
-			.setDesc('Color-code each section in the Chord Map. Off by default.')
+			.setDesc('Color-code each section in the chord map. Off by default.')
 			.addToggle(t => t
 				.setValue(this.plugin.settings.chordMapColorsEnabled)
 				.onChange(async (v) => {
@@ -92,7 +91,7 @@ export class MusicMageSettingTab extends PluginSettingTab {
 		}
 
 		// ── Track / Key Detection ─────────────────────────────
-		containerEl.createEl('h3', { text: 'Track & Key Detection' });
+		new Setting(containerEl).setName('Track & key detection').setHeading();
 
 		new Setting(containerEl)
 			.setName('Track beat alignment')

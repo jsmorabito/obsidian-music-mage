@@ -128,7 +128,7 @@ export interface ChordMapOptions {
 const NS = 'http://www.w3.org/2000/svg';
 
 function el<K extends keyof SVGElementTagNameMap>(tag: K): SVGElementTagNameMap[K] {
-	return document.createElementNS(NS, tag) as SVGElementTagNameMap[K];
+	return document.createElementNS(NS, tag);
 }
 
 export function renderChordMap(
@@ -348,7 +348,7 @@ export function renderSymbolLegend(container: HTMLElement): void {
 
 	const NS_SVG = 'http://www.w3.org/2000/svg';
 	function makeIcon(drawFn: (svg: SVGSVGElement) => void): SVGSVGElement {
-		const svg = document.createElementNS(NS_SVG, 'svg') as SVGSVGElement;
+		const svg = document.createElementNS(NS_SVG, 'svg');
 		svg.setAttribute('viewBox', '-12 -12 24 24');
 		svg.setAttribute('width', '20');
 		svg.setAttribute('height', '20');

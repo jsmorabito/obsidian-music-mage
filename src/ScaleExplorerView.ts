@@ -34,7 +34,7 @@ export class ScaleExplorerView extends ItemView {
 	}
 
 	getViewType() { return SCALE_EXPLORER_VIEW; }
-	getDisplayText() { return 'Scale Explorer'; }
+	getDisplayText() { return 'Scale explorer'; }
 	getIcon() { return 'layout-list'; }
 
 	async onOpen() { this.render(); }
@@ -148,8 +148,8 @@ export class ScaleExplorerView extends ItemView {
 		const WHITE_PATTERN = [0, 2, 4, 5, 7, 9, 11]; // C D E F G A B offsets
 		const BLACK_POSITIONS: Record<number, number> = { 1: 0, 3: 1, 6: 3, 8: 4, 10: 5 }; // offset → gap index
 
-		const whiteKeys = parent.createDiv('mm-piano-whites');
-		const blackKeys = parent.createDiv('mm-piano-blacks');
+		const whiteKeys = piano.createDiv('mm-piano-whites');
+		const blackKeys = piano.createDiv('mm-piano-blacks');
 
 		WHITE_PATTERN.forEach((offset, pos) => {
 			const noteIndex = (startC + offset) % 12;

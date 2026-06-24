@@ -112,8 +112,10 @@ export function detectKey(beats: AnalysisBeat[]): KeyDetectionResult {
 					const expected = qualities[degreeIdx] ?? '';
 					const actual = beat.parsedChord.type.symbol;
 					// Flexible: m7 matches m, maj7 matches '', dim7 matches dim, etc.
+					// Note: `actual.startsWith(expected)` must guard against expected=''
+					// because every string starts with '' — that would make all chords match.
 					const match = actual === expected
-						|| actual.startsWith(expected)
+						|| (expected !== '' && actual.startsWith(expected))
 						|| (expected === '' && !actual.startsWith('m') && !actual.includes('dim') && !actual.includes('aug'));
 					if (match) matches++;
 				}
@@ -138,7 +140,7 @@ export function detectKey(beats: AnalysisBeat[]): KeyDetectionResult {
 	candidates.sort((a, b) => b.score - a.score);
 
 	return {
-		candidates: candidates.slice(0, 3) as KeyCandidate[],
+		candidates: candidates.slice(0, 3),
 		dominantBassNote,
 		totalBeats: beats.length,
 	};

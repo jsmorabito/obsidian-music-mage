@@ -1,7 +1,7 @@
 import { ItemView, TFile, WorkspaceLeaf } from 'obsidian';
 import type MusicMagePlugin from './main';
-import { metaFromFrontmatter, parseSongDirectives, SongMeta, SongSection } from './song';
-import { sectionsToPoints, renderChordMap, renderLegend, renderSymbolLegend, keyToCofPos } from './ChordMap';
+import { metaFromFrontmatter, parseSongDirectives, isSongFile, SongMeta, SongSection } from './song';
+import { sectionsToPoints, renderChordMap, renderLegend, keyToCofPos } from './ChordMap';
 import { buildScoreGroups } from './TrackParser';
 import { detectKey, KeyCandidate, ChordInContext } from './theory/keyDetect';
 
@@ -15,16 +15,16 @@ export class SongAnalysisView extends ItemView {
 	}
 
 	getViewType() { return SONG_ANALYSIS_VIEW; }
-	getDisplayText() { return 'Song Analysis'; }
+	getDisplayText() { return 'Song analysis'; }
 	getIcon() { return 'file-music'; }
 
 	async onOpen() {
-		this.registerEvent(this.app.workspace.on('active-leaf-change', () => this.refresh()));
+		this.registerEvent(this.app.workspace.on('active-leaf-change', () => void this.refresh()));
 		this.registerEvent(this.app.vault.on('modify', (file) => {
-			if (file === this.currentFile) this.refresh();
+			if (file === this.currentFile) void this.refresh();
 		}));
 		this.registerEvent(this.app.metadataCache.on('changed', (file) => {
-			if (file === this.currentFile) this.refresh();
+			if (file === this.currentFile) void this.refresh();
 		}));
 		await this.refresh();
 	}
@@ -57,11 +57,7 @@ export class SongAnalysisView extends ItemView {
 		const sections = parseSongDirectives(text);
 
 		const { songFrontmatterKey, songFrontmatterValue } = this.plugin.settings;
-		const taggedAsSong = songFrontmatterKey !== '' &&
-			frontmatter != null &&
-			String(frontmatter[songFrontmatterKey] ?? '') === songFrontmatterValue;
-
-		if (!taggedAsSong && !meta.key && !meta.tempo && !meta.time && !meta.artist && sections.length === 0) {
+		if (!isSongFile(meta, sections, frontmatter, songFrontmatterKey, songFrontmatterValue)) {
 			this.renderEmpty(contentEl, 'No song data found. Add frontmatter (key, tempo, time) or :::song directives.');
 			return;
 		}
@@ -98,7 +94,7 @@ export class SongAnalysisView extends ItemView {
 
 	private renderSections(parent: HTMLElement, sections: SongSection[]) {
 		const wrap = parent.createDiv('mm-song-sections');
-		wrap.createEl('h4', { text: 'Chord Progressions', cls: 'mm-section-label' });
+		wrap.createEl('h4', { text: 'Chord progressions', cls: 'mm-section-label' });
 
 		sections.forEach(section => {
 			const sec = wrap.createDiv('mm-song-section');
@@ -113,7 +109,7 @@ export class SongAnalysisView extends ItemView {
 
 	private renderChordMap(parent: HTMLElement, sections: SongSection[], meta?: SongMeta) {
 		const wrap = parent.createDiv('mm-song-map-wrap');
-		wrap.createEl('h4', { text: 'Chord Map', cls: 'mm-section-label' });
+		wrap.createEl('h4', { text: 'Chord map', cls: 'mm-section-label' });
 
 		const opts = {
 			colorsEnabled: this.plugin.settings.chordMapColorsEnabled,
@@ -132,7 +128,7 @@ export class SongAnalysisView extends ItemView {
 		if (groups.length === 0) return;
 
 		const wrap = parent.createDiv('mm-key-detect-wrap');
-		wrap.createEl('h4', { text: 'Key Detection', cls: 'mm-section-label' });
+		wrap.createEl('h4', { text: 'Key detection', cls: 'mm-section-label' });
 
 		for (const group of groups) {
 			if (group.merged.length === 0) continue;

@@ -39,7 +39,7 @@ export class ChordDictionaryView extends ItemView {
 	}
 
 	getViewType() { return CHORD_DICT_VIEW; }
-	getDisplayText() { return 'Chord Dictionary'; }
+	getDisplayText() { return 'Chord dictionary'; }
 	getIcon() { return 'book-open'; }
 
 	async onOpen() { this.render(); }
@@ -80,7 +80,7 @@ export class ChordDictionaryView extends ItemView {
 	private renderSearchResult(parent: HTMLElement) {
 		const chord = parseChord(this.searchQuery);
 		if (!chord) {
-			parent.createEl('p', { text: 'No chord matched. Try "Cm", "Gmaj7", "Bbdim"…', cls: 'mm-hint' });
+			parent.createEl('p', { text: 'No chord matched. Try "cm", "gmaj7", "bbdim"…', cls: 'mm-hint' });
 			return;
 		}
 		this.renderChordCard(parent, chord);
