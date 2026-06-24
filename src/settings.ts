@@ -7,6 +7,8 @@ export interface MusicMageSettings {
 	chordMapColorsEnabled: boolean;
 	sectionColors: string[];
 	trackAlignment: TrackAlignment;
+	songFrontmatterKey: string;
+	songFrontmatterValue: string;
 }
 
 export const DEFAULT_SECTION_COLORS = [
@@ -18,6 +20,8 @@ export const DEFAULT_SETTINGS: MusicMageSettings = {
 	chordMapColorsEnabled: false,
 	sectionColors: [...DEFAULT_SECTION_COLORS],
 	trackAlignment: 'bar',
+	songFrontmatterKey: '',
+	songFrontmatterValue: '',
 };
 
 export class MusicMageSettingTab extends PluginSettingTab {
@@ -29,6 +33,33 @@ export class MusicMageSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 		containerEl.createEl('h2', { text: 'Music Mage' });
+
+		// ── Song Analysis ─────────────────────────────────────
+		containerEl.createEl('h3', { text: 'Song Analysis' });
+
+		new Setting(containerEl)
+			.setName('Song frontmatter key')
+			.setDesc('Frontmatter key that identifies a note as a song (e.g. "type"). Leave blank to disable.')
+			.addText(t => t
+				.setPlaceholder('type')
+				.setValue(this.plugin.settings.songFrontmatterKey)
+				.onChange(async (v) => {
+					this.plugin.settings.songFrontmatterKey = v.trim();
+					await this.plugin.saveSettings();
+				}),
+			);
+
+		new Setting(containerEl)
+			.setName('Song frontmatter value')
+			.setDesc('Value the key must match for the note to be treated as a song (e.g. "song").')
+			.addText(t => t
+				.setPlaceholder('song')
+				.setValue(this.plugin.settings.songFrontmatterValue)
+				.onChange(async (v) => {
+					this.plugin.settings.songFrontmatterValue = v.trim();
+					await this.plugin.saveSettings();
+				}),
+			);
 
 		// ── Chord Map ────────────────────────────────────────
 		containerEl.createEl('h3', { text: 'Chord Map' });

@@ -49,13 +49,19 @@ export class SongAnalysisView extends ItemView {
 		}
 
 		const cache = this.app.metadataCache.getFileCache(this.currentFile);
-		const meta = metaFromFrontmatter(cache?.frontmatter ?? null);
+		const frontmatter = cache?.frontmatter ?? null;
+		const meta = metaFromFrontmatter(frontmatter);
 		if (meta.title === 'Untitled') meta.title = this.currentFile.basename;
 
 		const text = await this.app.vault.cachedRead(this.currentFile);
 		const sections = parseSongDirectives(text);
 
-		if (!meta.key && !meta.tempo && !meta.time && !meta.artist && sections.length === 0) {
+		const { songFrontmatterKey, songFrontmatterValue } = this.plugin.settings;
+		const taggedAsSong = songFrontmatterKey !== '' &&
+			frontmatter != null &&
+			String(frontmatter[songFrontmatterKey] ?? '') === songFrontmatterValue;
+
+		if (!taggedAsSong && !meta.key && !meta.tempo && !meta.time && !meta.artist && sections.length === 0) {
 			this.renderEmpty(contentEl, 'No song data found. Add frontmatter (key, tempo, time) or :::song directives.');
 			return;
 		}

@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-music-mage",
 	"name": "Music Mage",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "1.0.0",
 	"description": "Music integration for Obsidian.",
 	"author": "johnny1093",
